@@ -21,8 +21,20 @@ public:
 
     void OpenNewDocument(const QString &name);
 
+    ///
+    /// \brief GetActiveDocument
+    /// \return The active document or null
+    ///
+    OpenDocument* GetActiveDocument() const;
+
 private slots:
     void on_actionOpen_triggered();
+
+    void on_actionSave_triggered();
+
+    void on_actionQuit_triggered();
+
+    void on_actionClose_triggered();
 
 private:
 
