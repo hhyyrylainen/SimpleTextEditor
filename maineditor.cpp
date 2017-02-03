@@ -1,6 +1,8 @@
 #include "maineditor.h"
 #include "ui_maineditor.h"
 
+#include <QFileDialog>
+
 MainEditor::MainEditor(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainEditor)
@@ -18,7 +20,9 @@ void MainEditor::OpenNewDocument(const QString &name)
 {
     OpenDocument* newDocument = new OpenDocument(name);
 
-    ui->tabWidget->addTab(newDocument, name);
+    const auto newIndex = ui->tabWidget->addTab(newDocument, name);
+
+    ui->tabWidget->setCurrentIndex(newIndex);
 
     Documents.push_back(newDocument);
 }
@@ -31,6 +35,18 @@ OpenDocument *MainEditor::GetActiveDocument() const
 
 void MainEditor::on_actionOpen_triggered()
 {
+    // Ask for filename //
+    QFileDialog dialog(this);
+    dialog.setFileMode(QFileDialog::AnyFile);
+    dialog.setViewMode(QFileDialog::Detail);
+
+    if(dialog.exec()){
+
+        for(const auto& file : dialog.selectedFiles()){
+
+            OpenNewDocument(file);
+        }
+    }
 
 }
 
